@@ -1,20 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { getAuth, getRedirectResult } from "firebase/auth"
 import firebase from "firebase/compat"
+import { redirect } from "react-router-dom"
 import { firestore } from "../../config/IntialiseFirebase"
+import { UserProfile } from "../profile/profileSlice"
 
-export interface LoginState {
-  authError: string | null
-  name: string
-  email: string
-  userID: string
-}
-
-const initialState: LoginState = {
-  authError: "Login Required",
+const initialState: UserProfile = {
   name: "",
   email: "",
   userID: "",
+  mobileNo: "",
+  term: "",
 }
 
 export const loginSlice = createSlice({
@@ -32,11 +28,12 @@ export const loginSlice = createSlice({
           if (result) {
             console.log(result)
 
-            const user: LoginState = {
+            const user: UserProfile = {
               name: result.user.displayName || "",
               email: result.user.email || "",
               userID: result.user.uid,
-              authError: "",
+              mobileNo: "",
+              term: "",
             }
 
             // validate user object
@@ -54,7 +51,7 @@ export const loginSlice = createSlice({
                   { merge: true }
                 )
                 .then((res) => {
-                  window.location.href = "/events"
+                  redirect("/events")
                 })
             }
           }
@@ -64,10 +61,10 @@ export const loginSlice = createSlice({
         })
     },
     loginError: (state) => {
-      state.authError = "Login Failed"
+      // Login Failed
     },
     loginSuccess: (state) => {
-      state.authError = null
+      // Login Successful
     },
   },
 })

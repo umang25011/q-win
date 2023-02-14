@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
+import { useDispatch, useSelector } from "react-redux"
+import { TypedUseSelectorHook } from "react-redux/es/types"
 import loginReducer from "../layouts/login/loginSlice"
 
 export const store = configureStore({
@@ -11,3 +13,6 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
+
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
