@@ -19,7 +19,7 @@ const Router = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         {/* <PrivateRoute path="/events"/> */}
-        <PrivateRoute path="/profile" element={<Profile />}/>
+        <Route path="/profile" element={<Profile />}/>
         {/* <Route exact path="/authenticate" component={Authenticate} />
          <NotProtectedRoute exact path="/dashboard" component={Dashboard} />
          <NotProtectedRoute exact path="/event/:id" component={EventDetail} />

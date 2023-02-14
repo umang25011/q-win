@@ -3,13 +3,13 @@ import { Button, Icon } from "semantic-ui-react"
 import { getAuth, getRedirectResult, OAuthProvider, signInWithRedirect } from "firebase/auth"
 import { microsoftProvider } from "../../config/IntialiseFirebase"
 import { loginWithMicrosoft } from "./loginSlice"
-import { useDispatch } from "react-redux"
 import { redirect, useNavigate } from "react-router-dom"
 import { url } from "inspector"
+import { useAppDispatch } from "../../store/store"
 
 export default function Login() {
   const auth = getAuth()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const microsoftLogin = () => {

@@ -6,5 +6,5 @@ export default function PrivateRoute(props: RouteProps): React.ReactElement | nu
   const user = useAppSelector((state) => state.login)
   const navigate = useNavigate()
 
-  return user.userID ? <Route {...props} /> : <Route element={<Navigate to="/login" replace />} />
+  return user.term ? <Route {...props} /> : user.userID ? <Navigate to="/profile" /> : <Navigate to="/login" />
 }
