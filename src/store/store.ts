@@ -3,11 +3,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { TypedUseSelectorHook } from "react-redux/es/types"
 import commonReducer from "../config/commonSlice"
 import loginReducer from "../layouts/login/loginSlice"
+import manageEventReducer from "../layouts/manageEvent/manageEventSlice"
+import {reducer as toastrReducer} from 'react-redux-toastr'
 
 export const store = configureStore({
   reducer: {
     login: loginReducer,
     commonData: commonReducer,
+    manageEvent: manageEventReducer, 
+    toastr: toastrReducer 
+
   },
 })
 

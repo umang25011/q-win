@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.css';
 // import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import './index.css';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

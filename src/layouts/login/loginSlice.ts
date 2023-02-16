@@ -10,7 +10,6 @@ import { initialUserProfile, UserProfile } from "../profile/profileSlice"
 
 const initialState: UserProfile = initialUserProfile
 
-
 export const loginSlice = createSlice({
   name: "login",
   initialState,
@@ -45,6 +44,7 @@ export const loginSlice = createSlice({
                 .then((res) => {
                   state = user
                   LOCAL_STORAGE.storeUser(user)
+                  window.location.href = "/profile"
                 })
             }
           }
@@ -61,13 +61,24 @@ export const loginSlice = createSlice({
       // Login Successful
     },
     storeUser: (state, action: PayloadAction<undefined | UserProfile>) => {
-      if (action.payload) state = action.payload
+      if (action.payload) {
+        state = action.payload
+        console.log(action.payload)
+
+        firestore
+          .collection("users")
+          .doc(action.payload.userID)
+          .set(action.payload, { merge: true })
+          .then((res) => {
+            window.location.href = "/events"
+          })
+      }
       LOCAL_STORAGE.storeUser(state)
     },
     getUser: (state) => {
       const user = LOCAL_STORAGE.getUser()
       if (user) {
-        state = user
+        return { ...user }
       }
     },
   },
