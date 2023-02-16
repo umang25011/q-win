@@ -1,17 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { AnyAction, createSlice, Dispatch, PayloadAction, ThunkDispatch } from "@reduxjs/toolkit"
 import { getAuth, getRedirectResult } from "firebase/auth"
 import firebase from "firebase/compat"
+import { act } from "react-dom/test-utils"
 import { redirect } from "react-router-dom"
 import { firestore } from "../../config/IntialiseFirebase"
-import { UserProfile } from "../profile/profileSlice"
+import { LOCAL_STORAGE } from "../../config/localStorage"
+import { useAppDispatch } from "../../store/store"
+import { initialUserProfile, UserProfile } from "../profile/profileSlice"
 
-const initialState: UserProfile = {
-  name: "",
-  email: "",
-  userID: "",
-  mobileNo: "",
-  term: "",
-}
+const initialState: UserProfile = initialUserProfile
+
 
 export const loginSlice = createSlice({
   name: "login",
@@ -26,16 +24,10 @@ export const loginSlice = createSlice({
           // IdP data available in result.additionalUserInfo.profile.
           // Get the OAuth access token and ID Token
           if (result) {
-            console.log(result)
-
-            const user: UserProfile = {
-              name: result.user.displayName || "",
-              email: result.user.email || "",
-              userID: result.user.uid,
-              mobileNo: "",
-              term: "",
-            }
-
+            const user: UserProfile = { ...initialUserProfile }
+            user.name = result.user.displayName || ""
+            user.email = result.user.email || ""
+            user.userID = result.user.uid
             // validate user object
             if (user.name && user.email && user.userID) {
               firestore
@@ -51,13 +43,15 @@ export const loginSlice = createSlice({
                   { merge: true }
                 )
                 .then((res) => {
-                  redirect("/events")
+                  state = user
+                  LOCAL_STORAGE.storeUser(user)
                 })
             }
           }
         })
         .catch((error: any) => {
           // Handle error.
+          console.log(error)
         })
     },
     loginError: (state) => {
@@ -66,9 +60,19 @@ export const loginSlice = createSlice({
     loginSuccess: (state) => {
       // Login Successful
     },
+    storeUser: (state, action: PayloadAction<undefined | UserProfile>) => {
+      if (action.payload) state = action.payload
+      LOCAL_STORAGE.storeUser(state)
+    },
+    getUser: (state) => {
+      const user = LOCAL_STORAGE.getUser()
+      if (user) {
+        state = user
+      }
+    },
   },
 })
 
-export const { loginError, loginSuccess, loginWithMicrosoft } = loginSlice.actions
+export const { loginError, loginSuccess, loginWithMicrosoft, storeUser, getUser } = loginSlice.actions
 
 export default loginSlice.reducer

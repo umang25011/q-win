@@ -1,8 +1,10 @@
-import React from "react"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import React, { useEffect } from "react"
+import { BrowserRouter, Navigate, redirect, Route, Routes, useNavigate } from "react-router-dom"
 import PrivateRoute from "../config/PrivateRoute"
+import EventsList from "../layouts/eventsList/EventsList"
 import Login from "../layouts/login/Login"
 import Profile from "../layouts/profile/Profile"
+import { useAppSelector } from "../store/store"
 // import Dashboard from "../components/dashboard/Dashboard";
 // import NotProtectedRoute from "./NotProtectedRoute";
 // import EventDetail from "../components/event/EventDetail";
@@ -14,20 +16,24 @@ import Profile from "../layouts/profile/Profile"
 // import Authenticate from "../components/auth/Authenticate";
 
 const Router = () => {
+  const commonData = useAppSelector((state) => state.commonData)
+
+  useEffect(() => {
+    // if (!commonData.userLoggedIn) {
+    //   if (window.location.pathname !== "/login") window.location.href = "/login"
+    // } else if (!commonData.userProfileComplete) {
+    //   if (window.location.pathname !== "/profile") window.location.href = "/profile"
+    // }
+  }, [commonData])
+
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<EventsList />} />
         <Route path="/login" element={<Login />} />
-        {/* <PrivateRoute path="/events"/> */}
-        <Route path="/profile" element={<Profile />}/>
-        {/* <Route exact path="/authenticate" component={Authenticate} />
-         <NotProtectedRoute exact path="/dashboard" component={Dashboard} />
-         <NotProtectedRoute exact path="/event/:id" component={EventDetail} />
-         <ProtectedRoute exact path="/people/:id" component={People} />
-         <ProtectedRoute exact path="/createEvent" component={CreateEditEvent} />
-         <ProtectedRoute exact path="/editEvent/:id" component={CreateEditEvent} />
-         <ProtectedRoute path="/settings" component={Settings} />
-         <Route path="*" render={() => <Redirect to="/" />} /> */}
+        <Route path="/profile" element={<PrivateRoute />}>
+          <Route element={<Profile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

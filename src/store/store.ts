@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch, useSelector } from "react-redux"
 import { TypedUseSelectorHook } from "react-redux/es/types"
+import commonReducer from "../config/commonSlice"
 import loginReducer from "../layouts/login/loginSlice"
 
 export const store = configureStore({
   reducer: {
-    login: loginReducer
+    login: loginReducer,
+    commonData: commonReducer,
   },
 })
 
