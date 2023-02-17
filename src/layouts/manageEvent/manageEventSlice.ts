@@ -4,11 +4,13 @@ import { toastr } from "react-redux-toastr"
 import { firestore, firestoreV9 } from "../../config/IntialiseFirebase"
 
 export interface EventDetails {
+  id: string
   title: string
   description: string
 }
 
 export const initialEventDetails: EventDetails = {
+  id: "",
   title: "",
   description: "",
 }
