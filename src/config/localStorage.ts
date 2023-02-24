@@ -1,11 +1,12 @@
 import { UserProfile } from "../layouts/profile/profileSlice"
 
-export interface LocalStorageKeys {
-  user: "user"
+export const LOCAL_STORAGE_KEYS = {
+  user: "user",
+  loading: "UserLoading",
 }
 
 export function storeUser(user: UserProfile) {
-  localStorage.setItem("user", JSON.stringify(user))
+  localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(user))
 }
 
 export function getUser() {
@@ -18,6 +19,27 @@ export function getUser() {
     return null
   } catch (error) {
     return null
+  }
+}
+
+/**
+ * To maintain loading state in local storage, so loading can work in login flow with redirect
+ * @param loading set loading in local storage
+ * @returns loading value stored in local storage
+ */
+export function isLoading(loading?: boolean) {
+  if (loading !== undefined) {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.loading, JSON.stringify({ [LOCAL_STORAGE_KEYS.loading]: loading }))
+    return loading
+  } else {
+    const temp = localStorage.getItem(LOCAL_STORAGE_KEYS.loading)
+    try {
+      const loadingState = JSON.parse(temp || "{}")
+      if (loadingState[LOCAL_STORAGE_KEYS.loading]) return true
+      else return false
+    } catch (e) {
+      return false
+    }
   }
 }
 

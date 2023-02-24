@@ -6,6 +6,7 @@ import { loginWithMicrosoft } from "./loginSlice"
 import { redirect, useNavigate } from "react-router-dom"
 import { url } from "inspector"
 import { useAppDispatch } from "../../store/store"
+import Loading from "../../config/Loding"
 
 export default function Login() {
   const auth = getAuth()
@@ -22,6 +23,7 @@ export default function Login() {
 
   return (
     <div className="home">
+      <Loading />
       <div className="logo">
         <img src={require("../../assets/logo.png")} alt="University of Windsor" />
       </div>

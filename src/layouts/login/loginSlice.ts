@@ -1,11 +1,8 @@
-import { AnyAction, createSlice, Dispatch, PayloadAction, ThunkDispatch } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { getAuth, getRedirectResult } from "firebase/auth"
 import firebase from "firebase/compat"
-import { act } from "react-dom/test-utils"
-import { redirect } from "react-router-dom"
 import { firestore } from "../../config/IntialiseFirebase"
 import { LOCAL_STORAGE } from "../../config/localStorage"
-import { useAppDispatch } from "../../store/store"
 import { initialUserProfile, UserProfile } from "../profile/profileSlice"
 
 const initialState: UserProfile = initialUserProfile
