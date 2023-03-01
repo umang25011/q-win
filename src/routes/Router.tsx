@@ -7,6 +7,7 @@ import Login from "../layouts/login/Login"
 import ManageEvents from "../layouts/manageEvent/ManageEvents"
 import Profile from "../layouts/profile/Profile"
 import { useAppDispatch, useAppSelector } from "../store/store"
+import { getUser } from "../layouts/login/loginSlice"
 // import Dashboard from "../components/dashboard/Dashboard";
 // import NotProtectedRoute from "./NotProtectedRoute";
 // import EventDetail from "../components/event/EventDetail";
@@ -18,8 +19,11 @@ import { useAppDispatch, useAppSelector } from "../store/store"
 // import Authenticate from "../components/auth/Authenticate";
 
 const Router = () => {
+  const dispatch = useAppDispatch()
+  getUser
   useEffect(() => {
     const user = LOCAL_STORAGE.getUser()
+    dispatch(getUser())
     if (user === null || !user.email) {
       if (window.location.pathname !== "/login") window.location.href = "/login"
     } else if (!user.studentID) {

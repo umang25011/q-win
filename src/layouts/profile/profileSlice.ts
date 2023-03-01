@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-export interface UserProfile {
+export interface UserDetails {
     name: string, 
     email: string, 
     program: string, 
@@ -9,7 +9,7 @@ export interface UserProfile {
     studentID: string
 }
 
-export const initialUserProfile: UserProfile = {
+export const initialUserProfile: UserDetails = {
     name: "",
     email: "",
     userID: "",

@@ -3,9 +3,9 @@ import { getAuth, getRedirectResult } from "firebase/auth"
 import firebase from "firebase/compat"
 import { firestore } from "../../config/IntialiseFirebase"
 import { LOCAL_STORAGE } from "../../config/localStorage"
-import { initialUserProfile, UserProfile } from "../profile/profileSlice"
+import { initialUserProfile, UserDetails } from "../profile/profileSlice"
 
-const initialState: UserProfile = initialUserProfile
+const initialState: UserDetails = initialUserProfile
 
 export const loginSlice = createSlice({
   name: "login",
@@ -20,7 +20,7 @@ export const loginSlice = createSlice({
           // IdP data available in result.additionalUserInfo.profile.
           // Get the OAuth access token and ID Token
           if (result) {
-            const user: UserProfile = { ...initialUserProfile }
+            const user: UserDetails = { ...initialUserProfile }
             user.name = result.user.displayName || ""
             user.email = result.user.email || ""
             user.userID = result.user.uid
@@ -57,7 +57,7 @@ export const loginSlice = createSlice({
     loginSuccess: (state) => {
       // Login Successful
     },
-    storeUser: (state, action: PayloadAction<undefined | UserProfile>) => {
+    storeUser: (state, action: PayloadAction<undefined | UserDetails>) => {
       if (action.payload) {
         state = action.payload
         console.log(action.payload)

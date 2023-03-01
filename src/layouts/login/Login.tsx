@@ -23,7 +23,7 @@ export default function Login() {
 
   return (
     <div className="home">
-      <Loading />
+      {/* <Loading /> */}
       <div className="logo">
         <img src={require("../../assets/logo.png")} alt="University of Windsor" />
       </div>

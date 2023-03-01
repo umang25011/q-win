@@ -1,11 +1,11 @@
-import { UserProfile } from "../layouts/profile/profileSlice"
+import { UserDetails } from "../layouts/profile/profileSlice"
 
 export const LOCAL_STORAGE_KEYS = {
   user: "user",
   loading: "UserLoading",
 }
 
-export function storeUser(user: UserProfile) {
+export function storeUser(user: UserDetails) {
   localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(user))
 }
 
@@ -14,7 +14,7 @@ export function getUser() {
     let tempData = localStorage.getItem("user")
     if (tempData) {
       tempData = JSON.parse(tempData)
-      return (tempData as unknown) as UserProfile
+      return (tempData as unknown) as UserDetails
     }
     return null
   } catch (error) {

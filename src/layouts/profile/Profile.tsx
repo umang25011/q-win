@@ -6,11 +6,11 @@ import { SelectOption, TextInput } from "../../config/FormComponents"
 import { store, useAppDispatch, useAppSelector } from "../../store/store"
 import { getUser, storeUser } from "../login/loginSlice"
 import "./profile.css"
-import { initialUserProfile, UserProfile } from "./profileSlice"
+import { initialUserProfile, UserDetails } from "./profileSlice"
 
 export default function Profile() {
   const globalUser = useAppSelector((store) => store.login)
-  const [user, setUser] = useState<UserProfile>(globalUser)
+  const [user, setUser] = useState<UserDetails>(globalUser)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
