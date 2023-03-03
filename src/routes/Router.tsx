@@ -8,6 +8,7 @@ import ManageEvents from "../layouts/manageEvent/ManageEvents"
 import Profile from "../layouts/profile/Profile"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import { getUser } from "../layouts/login/loginSlice"
+import Verification from "../layouts/verification/Verification"
 // import Dashboard from "../components/dashboard/Dashboard";
 // import NotProtectedRoute from "./NotProtectedRoute";
 // import EventDetail from "../components/event/EventDetail";
@@ -38,6 +39,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-event" element={<ManageEvents />} />
+        <Route path="/start-verification" element={<Verification />} />
       </Routes>
     </BrowserRouter>
   )

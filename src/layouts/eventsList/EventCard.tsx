@@ -1,4 +1,5 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { EventDetails } from "../manageEvent/manageEventSlice"
 import "./eventCard.css"
@@ -6,6 +7,8 @@ import { registerEvent } from "./eventsListSlice"
 
 export default function EventCard({ event }: { event: EventDetails }) {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
   const user = useAppSelector((state) => state.login)
   return (
     <div className="card">
@@ -25,10 +28,10 @@ export default function EventCard({ event }: { event: EventDetails }) {
         <button
           className="attendance-btn"
           onClick={(e) => {
-            dispatch(registerEvent(event, user))
+            navigate("/start-verification", { state: event })
           }}
         >
-          Start Attendance
+          Start Verification
         </button>
       </div>
     </div>
