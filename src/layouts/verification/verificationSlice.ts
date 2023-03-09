@@ -41,21 +41,21 @@ export const generateRandomString = (event: EventDetails) => async (dispatch: Ap
     const privateCollectionRef = await doc(
       eventRef,
       FIREBASE_COLLECTIONS.eventsPrivate,
-      FIREBASE_COLLECTIONS.eventsRandomStringDocument
+      FIREBASE_COLLECTIONS.eventsPrivateRandomStringDocument
     )
 
     const privateDataSnap = await getDoc(privateCollectionRef)
     console.log(privateDataSnap.data())
     if (privateDataSnap.exists()) {
       dispatch(
-        storeRandomString({ randomString: privateDataSnap.data()[FIREBASE_COLLECTIONS.eventsRandomStringDocument] })
+        storeRandomString({ randomString: privateDataSnap.data()[FIREBASE_COLLECTIONS.eventsPrivateRandomStringDocument] })
       )
       console.log("Random Key Already Generated")
     } else {
       const randomString = generateRandomCharacters()
       console.log("Random String:", randomString)
       try {
-        await setDoc(privateCollectionRef, { [FIREBASE_COLLECTIONS.eventsRandomStringDocument]: randomString })
+        await setDoc(privateCollectionRef, { [FIREBASE_COLLECTIONS.eventsPrivateRandomStringDocument]: randomString })
         dispatch(storeRandomString({ randomString: randomString }))
         console.log("Uploaded")
       } catch (error) {

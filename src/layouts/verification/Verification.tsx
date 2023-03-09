@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { EventDetails } from "../manageEvent/manageEventSlice"
 import { generateRandomString, startVerificationHashStrings, storeEvent } from "./verificationSlice"
@@ -15,8 +15,10 @@ export default function Verification() {
   const verificationData = useAppSelector((state) => state.verification)
   // set the interval handle here, so when the component closes, we can clear out the interval
   const intervalRef = useRef<NodeJS.Timer>()
+  const navigate = useNavigate()
 
   useEffect(() => {
+    // TODO : call the function the first time also
     if (verificationData) dispatch(startVerificationHashStrings(verificationData, intervalRef))
 
     return () => {
@@ -28,10 +30,12 @@ export default function Verification() {
   useEffect(() => {
     // React 18 update. Reference: https://dev.to/jherr/react-18-useeffect-double-call-for-apis-emergency-fix-27ee
     if (state) dispatch(storeEvent({ event: state }))
+    else navigate("/events")
+    
   }, [state])
   return (
     <div className="qr-code-container">
-      <QRCode value={verificationData.hash} size={256} />
+      <QRCode value={JSON.stringify({eventID: verificationData.event.id, hash: verificationData.hash})} size={256} />
     </div>
   )
 }

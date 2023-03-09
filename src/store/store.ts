@@ -7,6 +7,7 @@ import manageEventReducer from "../layouts/manageEvent/manageEventSlice"
 import { reducer as toastrReducer } from "react-redux-toastr"
 import eventsListReducer from "../layouts/eventsList/eventsListSlice"
 import verificationReducer from "../layouts/verification/verificationSlice"
+import qrScannerSlice from "../layouts/verification/qrScannerSlice"
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     toastr: toastrReducer,
     eventsList: eventsListReducer,
     verification: verificationReducer,
+    qrScanner: qrScannerSlice,
   },
 })
 

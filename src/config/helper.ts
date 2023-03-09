@@ -12,7 +12,8 @@ export const FIREBASE_COLLECTIONS = {
   events: "events",
   eventsSubAttendees: "attendees",
   eventsPrivate: "events-private",
-  eventsRandomStringDocument: "random-string",
+  eventsPrivateRandomStringDocument: "random-string",
+  eventsPrivateVerifiedAttendees: "verified-attendees",
 }
 
 export function generateRandomCharacters(): string {
@@ -40,4 +41,35 @@ export async function getVerificationString(s1: string, s2: string): Promise<str
   const interval = Math.floor(timestamp / TIME_QR_CODE_REFRESHES)
   const concatenated = s1 + s2 + interval.toString()
   return hashString(concatenated)
+}
+
+export async function encryptJson(jsonObj: object, key: CryptoKey): Promise<string> {
+  const iv = crypto.getRandomValues(new Uint8Array(16))
+  const jsonStr = JSON.stringify(jsonObj)
+  const encodedData = new TextEncoder().encode(jsonStr)
+  const algorithm = { name: "AES-CBC", iv }
+  const encryptedData = await crypto.subtle.encrypt(algorithm, key, encodedData)
+  const encryptedHex = Array.from(new Uint8Array(encryptedData))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+  const ivHex = Array.from(iv)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+  return ivHex + encryptedHex
+}
+
+export async function decryptJson(encryptedJson: string, key: CryptoKey): Promise<object> {
+  const ivHex = encryptedJson.substring(0, 32)
+  const encryptedHex = encryptedJson.substring(32)
+
+  if (!ivHex || !encryptedHex) {
+    throw new Error("Invalid input string")
+  }
+
+  const iv = new Uint8Array(ivHex.match(/.{2}/g)!.map((hex) => parseInt(hex, 16)))
+  const encryptedData = new Uint8Array(encryptedHex.match(/.{2}/g)!.map((hex) => parseInt(hex, 16)))
+  const algorithm = { name: "AES-CBC", iv }
+  const decryptedData = await crypto.subtle.decrypt(algorithm, key, encryptedData)
+  const decodedData = new TextDecoder().decode(decryptedData)
+  return JSON.parse(decodedData)
 }
