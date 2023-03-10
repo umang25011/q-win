@@ -11,6 +11,7 @@ import { getUserLocal } from "../layouts/login/loginSlice"
 import Verification from "../layouts/verification/Verification"
 import QrScan from "../layouts/verification/QRScanner"
 import Header from "../layouts/header/Header"
+import UserHomePage from "../layouts/userHomePage/UserHomePage"
 // import Dashboard from "../components/dashboard/Dashboard";
 // import NotProtectedRoute from "./NotProtectedRoute";
 // import EventDetail from "../components/event/EventDetail";
