@@ -11,8 +11,10 @@ export default function EventCard({ event }: { event: EventDetails }) {
   const navigate = useNavigate()
 
   const user = useAppSelector((state) => state.login)
-  const isEventRegistered = user.user_events.map((item) => item.eventID).includes(event.id)
-  const isEventAttended = user.events_attended.map(item=>item.eventID).includes(event.id)
+  const isEventRegistered = user.user_events ? user.user_events.map((item) => item.eventID).includes(event.id) : false
+  const isEventAttended = user.events_attended
+    ? user.events_attended.map((item) => item.eventID).includes(event.id)
+    : false
 
   return (
     <div className="event-details mb-5">

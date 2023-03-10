@@ -59,7 +59,7 @@ export const registerEvent = (event: EventDetails, user: UserDetails) => async (
     })
     const updatedUser = { ...user }
     if (!updatedUser.user_events) updatedUser.user_events = []
-    updatedUser.user_events = [...user.user_events, user_event]
+    updatedUser.user_events = user.user_events ? [...user.user_events, user_event] : [user_event]
     // store event in Local Storage
     dispatch(storeUserLocal(updatedUser))
     toastr.success(`${event.title}`, "Event Registration Successful")

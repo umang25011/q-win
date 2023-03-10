@@ -3,7 +3,7 @@
   min-width: 60vw;
   margin: 0 auto;
   padding: 3em;
-  height: 90vh;
+  max-height: 80vh;
 }
 
 .event-list h1 {
