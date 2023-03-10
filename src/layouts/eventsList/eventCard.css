@@ -1,4 +1,4 @@
-.card {
+/* .card {
   background: linear-gradient(45deg, #212121, #424242);
   color: #fff;
   border-radius: 10px;
@@ -61,4 +61,74 @@
 
 .register-btn:hover {
   background-color: #3e8e41;
+} */
+
+.event-details {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+  width: 100%;
+
+  /* margin: auto; */
+
+  margin-top: 50px;
+}
+
+.event-title {
+  font-size: 28px;
+
+  margin: 0;
+
+  color: #333;
+}
+
+.event-date {
+  font-size: 16px;
+
+  margin: 10px 0;
+
+  color: #666;
+}
+
+.event-address {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #666;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5em;
+  margin-top: 1em;
+}
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5em;
+  }
+  .event-details {
+    width: 100vw;
+  }
+}
+
+.details-button,
+.register-button {
+  background: linear-gradient(to bottom, #0d1a26, #1f4161);
+  color: white;
+  border: none;
+  padding: 0.7em 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.details-button:hover,
+.register-button:hover {
+  background: linear-gradient(to bottom, #1f4161, #01002a);
 }

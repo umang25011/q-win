@@ -13,7 +13,10 @@ export const FIREBASE_COLLECTIONS = {
   eventsSubAttendees: "attendees",
   eventsPrivate: "events-private",
   eventsPrivateRandomStringDocument: "random-string",
-  eventsPrivateVerifiedAttendees: "verified-attendees",
+  eventsPrivateVerifiedAttendees: "attendees",
+  unverified: "unverified",
+  verified: "verified",
+  privateUnverifiedAttendees: "private-unveried-attendees"
 }
 
 export function generateRandomCharacters(): string {

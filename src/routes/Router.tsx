@@ -9,7 +9,8 @@ import Profile from "../layouts/profile/Profile"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import { getUser } from "../layouts/login/loginSlice"
 import Verification from "../layouts/verification/Verification"
-import QrScanner from "../layouts/verification/QRScanner"
+import QrScan from "../layouts/verification/QRScanner"
+import Header from "../layouts/header/Header"
 // import Dashboard from "../components/dashboard/Dashboard";
 // import NotProtectedRoute from "./NotProtectedRoute";
 // import EventDetail from "../components/event/EventDetail";
@@ -36,12 +37,13 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/events" element={<EventsList />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/events" element={<EventsList />} />
+        <Route path="/" element={<EventsList />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-event" element={<ManageEvents />} />
         <Route path="/start-verification" element={<Verification />} />
-        <Route path="/qr-scanner" element={<QrScanner />} />
+        <Route path="/qr-scanner" element={<QrScan />} />
       </Routes>
     </BrowserRouter>
   )

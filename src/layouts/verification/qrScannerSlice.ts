@@ -1,11 +1,12 @@
 // QrScannerSlice.ts
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { doc, setDoc } from "firebase/firestore"
+import { addDoc, collection, doc, setDoc } from "firebase/firestore"
 import { FIREBASE_COLLECTIONS } from "../../config/helper"
 import { firestoreV9 } from "../../config/IntialiseFirebase"
 import { AppDispatch } from "../../store/store"
 import { EventDetails } from "../manageEvent/manageEventSlice"
+import { UserDetails } from "../profile/profileSlice"
 
 interface QrScannerState {
   qrCodeData: string | null
@@ -32,7 +33,7 @@ const qrScannerSlice = createSlice({
       state.isLoading = false
       state.error = null
     },
-    scanQrCodeFailure(state, action: PayloadAction<string>) {
+    scanQrCodeFailure(state, action: PayloadAction<any>) {
       state.isLoading = false
       state.error = action.payload
     },
@@ -43,20 +44,21 @@ export const { scanQrCodeStart, scanQrCodeSuccess, scanQrCodeFailure } = qrScann
 
 export default qrScannerSlice.reducer
 
-export const uploadVerificationToEvent = (hash: string, eventID: string) => async (dispatch:AppDispatch ) => {
+export const uploadVerificationToEvent = (hash: string, eventID: string, user: UserDetails) => async (
+  dispatch: AppDispatch
+) => {
   dispatch(scanQrCodeStart())
   try {
     // Upload the QR code image to Event
     const eventRef = await doc(firestoreV9, FIREBASE_COLLECTIONS.events, eventID)
-    const privateCollectionRef = await doc(
-      eventRef,
-      FIREBASE_COLLECTIONS.eventsPrivate,
-      FIREBASE_COLLECTIONS.eventsPrivateVerifiedAttendees
-    )
-    await setDoc(privateCollectionRef, {})
+
+    const privateCollectionRef = await doc(eventRef, FIREBASE_COLLECTIONS.eventsSubAttendees, user.userID)
+    await setDoc(privateCollectionRef, { hash }, { merge: true })
+    console.log("Qr Code Data Upload Successfull")
 
     dispatch(scanQrCodeSuccess(hash))
-  } catch (error: any) {
+  } catch (error) {
     dispatch(scanQrCodeFailure(error))
+    console.log("Error Uploading Qr Code Data", error)
   }
 }

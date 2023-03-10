@@ -31,7 +31,7 @@ export default function Login() {
         <img src={require("../../assets/qwin-logo.jpg")} alt="Qwin Logo" />
       </div> */}
       <div className="home-intro">
-        Note <br /> Use Your University Microsoft Account To Login <br /> Please Allow Location Permission
+        {/* Note <br /> Use Your University Microsoft Account To Login <br /> Please Allow Location Permission */}
       </div>
       <Button inverted size="large" onClick={microsoftLogin}>
         Login <Icon name="arrow right" />

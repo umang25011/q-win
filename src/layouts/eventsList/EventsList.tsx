@@ -6,6 +6,7 @@ import "./eventsList.css"
 import EventCard from "./EventCard"
 import { EventDetails } from "../manageEvent/manageEventSlice"
 import firebase from "firebase/compat"
+import Header from "../header/Header"
 
 const EventList = () => {
   const dispatch = useAppDispatch()
@@ -16,19 +17,22 @@ const EventList = () => {
   }, [dispatch])
 
   return (
-    <div className="event-list">
-      <h1>Upcoming Events</h1>
-      {events && events.length === 0 && <p>No events found.</p>}
-      <ul>
-        {events
-          ? events.map((event) => (
-              <li key={event.id}>
-                <EventCard event={event as EventDetails} />
-              </li>
-            ))
-          : null}
-      </ul>
-    </div>
+    <React.Fragment>
+      <Header />
+      <div className="event-list">
+        <h1>Upcoming Events</h1>
+        {events && events.length === 0 && <p>No events found.</p>}
+        <ul>
+          {events
+            ? events.map((event) => (
+                <li key={event.id}>
+                  <EventCard event={event as EventDetails} />
+                </li>
+              ))
+            : null}
+        </ul>
+      </div>
+    </React.Fragment>
   )
 }
 

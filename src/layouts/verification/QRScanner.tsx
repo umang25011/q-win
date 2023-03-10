@@ -1,13 +1,18 @@
-import React, { useState, useCallback, useEffect } from "react"
-import { useAppDispatch } from "../../store/store"
+import React, { useState, useCallback, useEffect, useRef, DetailedHTMLProps, VideoHTMLAttributes } from "react"
+import { useAppDispatch, useAppSelector } from "../../store/store"
+import QrScannerLibrary from "qr-scanner"
 // @ts-ignore
 import QrReader from "react-qr-scanner"
 import { uploadVerificationToEvent } from "./qrScannerSlice"
 import { decryptJson, encryptJson } from "../../config/helper"
+import QrScanner from "qr-scanner"
+import { UserDetails } from "../profile/profileSlice"
 
-export default function QrScanner() {
+export default function QrScan() {
   const [result, setResult] = useState("")
   const dispatch = useAppDispatch()
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const user = useAppSelector((state) => state.login)
 
   const test = async () => {
     // Generate a random 256-bit AES encryption key
@@ -24,30 +29,52 @@ export default function QrScanner() {
     const encryptedJson = await encryptJson(plainJson, key)
 
     console.log("Encrypted JSON:", encryptedJson)
-      console.log("Key:", key);
-      
+    console.log("Key:", key)
+
     // Decrypt the encrypted JSON object
     const decryptedJson = await decryptJson(encryptedJson, key)
 
     console.log("Decrypted JSON:", decryptedJson)
   }
+  const handleScan = (result: QrScanner.ScanResult) => {
+    console.log("QR Result", result)
+    try {
+      const parsedData = JSON.parse(result.data)
+      console.log("User before QR Upload: ", user)
 
-  useEffect(() => {
-    test()
-  }, [])
-
-  const handleScan = (data: any) => {
-    if (data) {
-      // eventID, hash
-      const parsedData = JSON.parse(data)
-      dispatch(uploadVerificationToEvent(parsedData.hash, parsedData.eventID))
+      if (parsedData.hash && parsedData.eventID) {
+        if (scannerRef.current) scannerRef.current.stop()
+        dispatch(uploadVerificationToEvent(parsedData.hash, parsedData.eventID, user))
+      }
+    } catch (error) {
+      console.log("Error Scanning QR Code")
     }
   }
 
-  return (
-    <div>
-      <QrReader onScan={handleScan} facingMode="rear" />
-      <p>{result}</p>
-    </div>
-  )
+  const handleError = (error: any) => {
+    console.error(error)
+  }
+
+  const scannerRef = useRef<QrScanner>()
+
+  useEffect(() => {
+    // test()
+    scannerRef.current = new QrScannerLibrary(videoRef.current!, handleScan, {
+      onDecodeError: handleError,
+      preferredCamera: "environment",
+      maxScansPerSecond: 1,
+      highlightScanRegion: true,
+      highlightCodeOutline: true,
+    })
+    scannerRef.current.start()
+
+    return () => {
+      if (scannerRef.current) {
+        scannerRef.current.destroy()
+      }
+    }
+  }, [user])
+  console.log("User", user)
+
+  return <video id="qr-video" style={{ objectFit: "cover", width: "100%", height: "100%" }} ref={videoRef} />
 }
