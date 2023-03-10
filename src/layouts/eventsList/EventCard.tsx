@@ -12,6 +12,7 @@ export default function EventCard({ event }: { event: EventDetails }) {
 
   const user = useAppSelector((state) => state.login)
   const isEventRegistered = user.user_events.map((item) => item.eventID).includes(event.id)
+  const isEventAttended = user.events_attended.includes(event.id)
 
   return (
     <div className="event-details mb-5">
@@ -37,20 +38,24 @@ export default function EventCard({ event }: { event: EventDetails }) {
         </button>
 
         <button
-          className={` ${isEventRegistered ? "cancel-button" : "register-button"}`}
+          className={`${isEventAttended ? "event-attended-button" : ""} ${
+            isEventRegistered ? "cancel-button" : "register-button"
+          }`}
           style={{ width: "auto" }}
+          disabled={isEventAttended}
           onClick={(e) => {
             if (isEventRegistered) {
-              console.log("Calling Unregister");
-              
-              dispatch(unregisterEvent(event, user))}
-              else {
-              console.log("Calling Register");
-              
-              dispatch(registerEvent(event, user))}
+              console.log("Calling Unregister")
+
+              dispatch(unregisterEvent(event, user))
+            } else {
+              console.log("Calling Register")
+
+              dispatch(registerEvent(event, user))
+            }
           }}
         >
-          {isEventRegistered ? "Cancel" : "Register"}
+          {isEventAttended ? "Attended" : isEventRegistered ? "Cancel" : "Register"}
         </button>
       </div>
     </div>

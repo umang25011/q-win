@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Provider store={store}>
         <ReduxToastr
-          timeOut={3}
+          timeOut={5}
           newestOnTop={false}
           preventDuplicates
           position="top-right"

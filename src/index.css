@@ -297,3 +297,11 @@ code {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
+.event-attended-button {
+  background: linear-gradient(to bottom, #0593bb, #0c86b7);
+  cursor: not-allowed;
+}
+.event-attended-button:hover {
+  background: black;
+  transition: none;
+}

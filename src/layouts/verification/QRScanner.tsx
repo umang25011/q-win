@@ -8,6 +8,7 @@ import { decryptJson, encryptJson } from "../../config/helper"
 import QrScanner from "qr-scanner"
 import { UserDetails } from "../profile/profileSlice"
 import { useNavigate } from "react-router-dom"
+import { toastr } from "react-redux-toastr"
 
 export default function QrScan() {
   const [result, setResult] = useState("")
@@ -46,6 +47,24 @@ export default function QrScan() {
 
       if (parsedData.hash && parsedData.eventID) {
         if (scannerRef.current) scannerRef.current.stop()
+
+        // check if event is already scanned, or not registred
+        const isEventRegistered = user.user_events.map((item) => item.eventID).includes(parsedData.eventID)
+        const isEventAttended = user.events_attended.includes(parsedData.eventID)
+
+        if (isEventAttended) {
+          toastr.warning("Event Already Attended", "You have already attended this event")
+          scannerRef.current!.destroy()
+          navigate("/")
+          return
+        }
+        if (!isEventRegistered) {
+          toastr.error("Event Not Registered", "You have not registered this event")
+          scannerRef.current!.destroy()
+          navigate("/")
+          return
+        }
+
         dispatch(uploadVerificationToEvent(parsedData.hash, parsedData.eventID, user, scannerRef, navigate))
       }
     } catch (error) {
