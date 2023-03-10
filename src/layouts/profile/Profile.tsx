@@ -4,7 +4,7 @@ import { redirect } from "react-router-dom"
 import { Card, Dropdown, Form } from "semantic-ui-react"
 import { SelectOption, TextInput } from "../../config/FormComponents"
 import { store, useAppDispatch, useAppSelector } from "../../store/store"
-import { getUser, storeUser } from "../login/loginSlice"
+import { getUserLocal, storeUser } from "../login/loginSlice"
 import "./profile.css"
 import { initialUserProfile, UserDetails } from "./profileSlice"
 
@@ -14,7 +14,7 @@ export default function Profile() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getUser())
+    dispatch(getUserLocal())
   }, [])
 
   useEffect(() => {
@@ -38,7 +38,15 @@ export default function Profile() {
         label="Student ID"
         value={user.studentID}
         setValue={(val) => setUser({ ...user, studentID: val })}
-        extra={{ pattern: "[0-9]{9}", maxLength: 9, required: true }}
+        extra={{
+          pattern: "[0-9]{9}",
+          maxLength: 9,
+          required: true,
+          // @ts-ignore
+          onInvalid: (e) => e.target.setCustomValidity("Please Enter Your 9 Digit Student ID (e.g 123456789)"),
+          // @ts-ignore
+          onInput: (e) => e.target.setCustomValidity(""),
+        }}
       />
       <TextInput
         label="Phone No"

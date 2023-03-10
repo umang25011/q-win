@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { getAuth, getRedirectResult } from "firebase/auth"
 import firebase from "firebase/compat"
-import { firestore } from "../../config/IntialiseFirebase"
+import { doc } from "firebase/firestore"
+import { FIREBASE_COLLECTIONS } from "../../config/helper"
+import { firestore, firestoreV9 } from "../../config/IntialiseFirebase"
 import { LOCAL_STORAGE } from "../../config/localStorage"
+import { AppDispatch } from "../../store/store"
 import { initialUserProfile, UserDetails } from "../profile/profileSlice"
 
 const initialState: UserDetails = initialUserProfile
+
+const getUserFirestore = (userID: string) => (dispatch: AppDispatch) => {}
 
 export const loginSlice = createSlice({
   name: "login",
@@ -72,15 +77,30 @@ export const loginSlice = createSlice({
       }
       LOCAL_STORAGE.storeUser(state)
     },
-    getUser: (state) => {
+    storeUserLocal: (state, action: PayloadAction<UserDetails>) => {
+      LOCAL_STORAGE.storeUser(action.payload)
+      state = action.payload
+      return { ...state }
+    },
+    getUserLocal: (state) => {
       const user = LOCAL_STORAGE.getUser()
       if (user) {
         return { ...user }
       }
     },
+    getUserFirebase: (state, action: PayloadAction<{ userID: string }>) => {
+      const userRef = doc(firestoreV9, FIREBASE_COLLECTIONS.users, action.payload.userID)
+    },
   },
 })
 
-export const { loginError, loginSuccess, loginWithMicrosoft, storeUser, getUser } = loginSlice.actions
+export const {
+  loginError,
+  loginSuccess,
+  loginWithMicrosoft,
+  storeUser,
+  getUserLocal,
+  storeUserLocal,
+} = loginSlice.actions
 
 export default loginSlice.reducer

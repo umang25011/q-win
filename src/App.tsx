@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Provider store={store}>
         <ReduxToastr
-          timeOut={1}
+          timeOut={3}
           newestOnTop={false}
           preventDuplicates
           position="top-right"
@@ -19,8 +19,8 @@ function App() {
           transitionIn="bounceInDown"
           transitionOut="bounceOutUp"
           progressBar
-          closeOnToastrClick={false}
-          
+          closeOnToastrClick={true}
+          removeOnHover={true}
         />
         <Router />
       </Provider>

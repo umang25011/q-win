@@ -7,7 +7,7 @@ import Login from "../layouts/login/Login"
 import ManageEvents from "../layouts/manageEvent/ManageEvents"
 import Profile from "../layouts/profile/Profile"
 import { useAppDispatch, useAppSelector } from "../store/store"
-import { getUser } from "../layouts/login/loginSlice"
+import { getUserLocal } from "../layouts/login/loginSlice"
 import Verification from "../layouts/verification/Verification"
 import QrScan from "../layouts/verification/QRScanner"
 import Header from "../layouts/header/Header"
@@ -23,10 +23,10 @@ import Header from "../layouts/header/Header"
 
 const Router = () => {
   const dispatch = useAppDispatch()
-  getUser
+  getUserLocal
   useEffect(() => {
     const user = LOCAL_STORAGE.getUser()
-    dispatch(getUser())
+    dispatch(getUserLocal())
     if (user === null || !user.email) {
       if (window.location.pathname !== "/login") window.location.href = "/login"
     } else if (!user.studentID) {
@@ -42,6 +42,7 @@ const Router = () => {
         <Route path="/" element={<EventsList />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-event" element={<ManageEvents />} />
+        <Route path="/events/:id?" element={<ManageEvents />} />
         <Route path="/start-verification" element={<Verification />} />
         <Route path="/qr-scanner" element={<QrScan />} />
       </Routes>

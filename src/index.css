@@ -20,12 +20,7 @@ code {
   height: 100vh;
   width: 100vw;
   background: rgb(42, 36, 133);
-  background: linear-gradient(
-    143deg,
-    rgba(42, 36, 133, 0.8631652490097601) 0%,
-    rgba(37, 37, 195, 0.944397742006959) 43%,
-    rgba(21, 200, 236, 1) 96%
-  );
+  background: linear-gradient(143deg, #01002a 5%, /* rgba(37, 37, 195, 1) 43%, */ #156caa 96%) !important;
   color: white;
   display: flex;
   flex-direction: column;
@@ -291,4 +286,14 @@ code {
 
 .btn-color {
   background-color: #01002a;
+}
+
+.cancel-button {
+  background: linear-gradient(to bottom, #42100d, #8d0b09);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }

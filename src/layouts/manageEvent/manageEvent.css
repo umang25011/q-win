@@ -1,86 +1,118 @@
-.form-style-1 {
-  margin: 10px auto;
-  width: 40em;
-  padding: 20px 12px 10px 20px;
-  font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
-.form-style-1 li {
-  padding: 0;
-  display: block;
-  list-style: none;
-  margin: 10px 0 0 0;
-}
-.form-style-1 label {
-  margin: 0 0 3px 0;
-  padding: 0px;
-  display: block;
-  font-weight: bold;
-}
-.form-style-1 input[type="text"],
-.form-style-1 input[type="date"],
-.form-style-1 input[type="datetime"],
-.form-style-1 input[type="number"],
-.form-style-1 input[type="search"],
-.form-style-1 input[type="time"],
-.form-style-1 input[type="url"],
-.form-style-1 input[type="email"],
-textarea,
-select {
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  border: 1px solid #bebebe;
-  padding: 7px;
-  margin: 0px;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  outline: none;
-}
-.form-style-1 input[type="text"]:focus,
-.form-style-1 input[type="date"]:focus,
-.form-style-1 input[type="datetime"]:focus,
-.form-style-1 input[type="number"]:focus,
-.form-style-1 input[type="search"]:focus,
-.form-style-1 input[type="time"]:focus,
-.form-style-1 input[type="url"]:focus,
-.form-style-1 input[type="email"]:focus,
-.form-style-1 textarea:focus,
-.form-style-1 select:focus {
-  -moz-box-shadow: 0 0 8px #88d5e9;
-  -webkit-box-shadow: 0 0 8px #88d5e9;
-  box-shadow: 0 0 8px #88d5e9;
-  border: 1px solid #88d5e9;
-}
-.form-style-1 .field-divided {
-  width: 49%;
+.event-form {
+  background: linear-gradient(180deg, #01002a 5%, #156caa 96%) !important;
+  /* background: linear-gradient(180deg, #01002a 5%, #156caa 96%) !important; */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  margin: auto;
+  margin-top: 50px;
 }
 
-.form-style-1 .field-long {
-  width: 100%;
+.form-title {
+  font-size: 28px;
+  margin: 0;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
 }
-.form-style-1 .field-select {
-  width: 100%;
+
+form {
+  margin-top: 20px;
 }
-.form-style-1 .field-textarea {
-  height: 100px;
+
+.form-group {
+  margin-bottom: 20px;
 }
-.form-style-1 input[type="submit"],
-.form-style-1 input[type="button"] {
-  background: #4b99ad;
-  padding: 8px 15px 8px 15px;
-  border: none;
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
   color: #fff;
 }
-.form-style-1 input[type="submit"]:hover,
-.form-style-1 input[type="button"]:hover {
-  background: #4691a4;
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
+
+input[type="text"],
+textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
 }
-.form-style-1 .required {
-  color: red;
+
+input[type="datetime-local"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.cancel-button:hover {
+  background: linear-gradient(to bottom, #e53935, #f44336);
+}
+
+.create-button {
+  background: linear-gradient(to bottom, #071829, #023d75);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.create-button:hover {
+  background: linear-gradient(to bottom, #1f4161, #0d1a26);
+}
+
+input[type="submit"],
+input[type="button"],
+button[type="submit"],
+button[type="button"] {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+input[type="submit"],
+button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+input[type="datetime-local"]:focus {
+  outline: none;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+}
+
+input[type="submit"],
+input[type="button"],
+button[type="submit"],
+button[type="button"] {
+  cursor: pointer;
+}
+
+.cancel-button,
+.create-button {
+  width: 45%;
 }

@@ -16,7 +16,8 @@ export const FIREBASE_COLLECTIONS = {
   eventsPrivateVerifiedAttendees: "attendees",
   unverified: "unverified",
   verified: "verified",
-  privateUnverifiedAttendees: "private-unveried-attendees"
+  privateUnverifiedAttendees: "private-unveried-attendees",
+  eventsAttended: "events_attended",
 }
 
 export function generateRandomCharacters(): string {
@@ -76,3 +77,23 @@ export async function decryptJson(encryptedJson: string, key: CryptoKey): Promis
   const decodedData = new TextDecoder().decode(decryptedData)
   return JSON.parse(decodedData)
 }
+
+export const TOAST_MESSAGE = {
+  registeredInEventSuccess: "Event Registration Successful",
+  loginSuccess: "Logged In Successfully",
+  verificationSuccess: "Event Verification Successful",
+}
+
+export const DATE_FORMAT_OPTION: Intl.DateTimeFormatOptions = {
+  dateStyle: "full",
+  timeStyle: "short",
+}
+
+// interface DateTimeFormatOptions {
+//   calendar?: string | undefined;
+//   dayPeriod?: "narrow" | "short" | "long" | undefined;
+//   numberingSystem?: string | undefined;
+
+//   dateStyle?: "full" | "long" | "medium" | "short" | undefined;
+//   timeStyle?: "full" | "long" | "medium" | "short" | undefined;
+//   hourCycle?: "h11" | "h12" | "h23" | "h24" | undefined;

@@ -7,12 +7,14 @@ import { uploadVerificationToEvent } from "./qrScannerSlice"
 import { decryptJson, encryptJson } from "../../config/helper"
 import QrScanner from "qr-scanner"
 import { UserDetails } from "../profile/profileSlice"
+import { useNavigate } from "react-router-dom"
 
 export default function QrScan() {
   const [result, setResult] = useState("")
   const dispatch = useAppDispatch()
   const videoRef = useRef<HTMLVideoElement>(null)
   const user = useAppSelector((state) => state.login)
+  const navigate = useNavigate()
 
   const test = async () => {
     // Generate a random 256-bit AES encryption key
@@ -44,7 +46,7 @@ export default function QrScan() {
 
       if (parsedData.hash && parsedData.eventID) {
         if (scannerRef.current) scannerRef.current.stop()
-        dispatch(uploadVerificationToEvent(parsedData.hash, parsedData.eventID, user))
+        dispatch(uploadVerificationToEvent(parsedData.hash, parsedData.eventID, user, scannerRef, navigate))
       }
     } catch (error) {
       console.log("Error Scanning QR Code")

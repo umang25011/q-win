@@ -28,10 +28,15 @@ export const startVerificationHashStrings = (
   // TODO : store initial time on firebase, so we can verify later from this time onwards
   console.log("Function Called")
 
-  intervalHandle.current = setInterval(async () => {
+  const start = async () => {
     const hash = await getVerificationString(state.event.id, state.randomString)
     dispatch(storeHash({ hash: hash }))
     console.log("Hash: ", hash)
+  }
+  start()
+
+  intervalHandle.current = setInterval(async () => {
+    start()
   }, TIME_QR_CODE_REFRESHES)
 }
 
@@ -48,7 +53,9 @@ export const generateRandomString = (event: EventDetails) => async (dispatch: Ap
     console.log(privateDataSnap.data())
     if (privateDataSnap.exists()) {
       dispatch(
-        storeRandomString({ randomString: privateDataSnap.data()[FIREBASE_COLLECTIONS.eventsPrivateRandomStringDocument] })
+        storeRandomString({
+          randomString: privateDataSnap.data()[FIREBASE_COLLECTIONS.eventsPrivateRandomStringDocument],
+        })
       )
       console.log("Random Key Already Generated")
     } else {

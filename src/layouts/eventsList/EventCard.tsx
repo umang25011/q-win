@@ -1,22 +1,32 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
+import { DATE_FORMAT_OPTION } from "../../config/helper"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { EventDetails } from "../manageEvent/manageEventSlice"
 import "./eventCard.css"
-import { registerEvent } from "./eventsListSlice"
+import { registerEvent, unregisterEvent } from "./eventsListSlice"
 
 export default function EventCard({ event }: { event: EventDetails }) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const user = useAppSelector((state) => state.login)
+  const isEventRegistered = user.user_events.map((item) => item.eventID).includes(event.id)
+
   return (
-    <div className="event-details">
+    <div className="event-details mb-5">
       <h1 className="event-title">{event.title}</h1>
-      <p className="event-date">March 15, 2023, 5:00 PM, Wednesday</p>
-      <p className="event-address">300 Ouellette Ave</p>
+      <p className="event-date">{new Date(event.date).toLocaleString("en-US", DATE_FORMAT_OPTION)}</p>
+      <p className="event-address">{event.address}</p>
       <div className="buttons">
-        <button className="details-button">Details</button>
+        <button
+          className="details-button"
+          onClick={() => {
+            navigate("/events/" + event.id)
+          }}
+        >
+          Details
+        </button>
         <button
           className="details-button"
           onClick={(e) => {
@@ -27,38 +37,22 @@ export default function EventCard({ event }: { event: EventDetails }) {
         </button>
 
         <button
-          className="register-button"
+          className={` ${isEventRegistered ? "cancel-button" : "register-button"}`}
+          style={{ width: "auto" }}
           onClick={(e) => {
-            dispatch(registerEvent(event, user))
+            if (isEventRegistered) {
+              console.log("Calling Unregister");
+              
+              dispatch(unregisterEvent(event, user))}
+              else {
+              console.log("Calling Register");
+              
+              dispatch(registerEvent(event, user))}
           }}
         >
-          Register
+          {isEventRegistered ? "Cancel" : "Register"}
         </button>
       </div>
     </div>
-    // <div className="card">
-    //   <div className="card-header">
-    //     <h2 className="card-title">{event.title}</h2>
-    //   </div>
-    //   <div className="card-body">
-    //     <p className="card-description">{event.description}</p>
-    //     <button
-    //       className="register-btn"
-    //       onClick={(e) => {
-    //         dispatch(registerEvent(event, user))
-    //       }}
-    //     >
-    //       Register
-    //     </button>
-    //     <button
-    //       className="attendance-btn"
-    //       onClick={(e) => {
-    //         navigate("/start-verification", { state: event })
-    //       }}
-    //     >
-    //       Start Verification
-    //     </button>
-    //   </div>
-    // </div>
   )
 }
