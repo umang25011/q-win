@@ -18,7 +18,7 @@ export function TextInput(props: {
         {...(props.extra || {})}
       />
       <div className="cut"></div>
-      <label className="placeholder">{props.label}</label>
+      <label className="label-placeholder">{props.label}</label>
     </div>
   )
 }
@@ -34,7 +34,7 @@ export function SelectOption(props: { setValue: (value: string) => void }) {
         <option value="Phd">Phd</option>
       </select>
       <div className="cut" style={{ width: "6em" }}></div>
-      <label className="placeholder">{"Your Program"}</label>
+      <label className="label-placeholder">{"Your Program"}</label>
     </div>
   )
 }
