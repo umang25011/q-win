@@ -7,15 +7,17 @@ import EventCard from "./EventCard"
 import { EventDetails } from "../manageEvent/manageEventSlice"
 import firebase from "firebase/compat"
 import Header from "../header/Header"
+import { getUserFromFirestore } from "../login/loginSlice"
 
 const EventList = () => {
   const dispatch = useAppDispatch()
   const events = useAppSelector((state) => state.eventsList)
+  const user = useAppSelector((state) => state.login)
 
   useEffect(() => {
     dispatch(fetchEvents())
   }, [dispatch])
-
+  
   return (
     <React.Fragment>
       <Header />

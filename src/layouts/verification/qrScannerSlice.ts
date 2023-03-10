@@ -73,8 +73,8 @@ export const uploadVerificationToEvent = (
     // destroy the scanner ref
     if (scannerRef.current) scannerRef.current.destroy()
     const updatedUser = { ...user }
-    if (!updatedUser.events_attended) updatedUser.events_attended = [eventID]
-    else updatedUser.events_attended = [...user.events_attended, eventID]
+    if (!updatedUser.events_attended) updatedUser.events_attended = [user_event]
+    else updatedUser.events_attended = [...user.events_attended, user_event]
     // store event in Local Storage
     dispatch(storeUserLocal(updatedUser))
     toastr.success("Event Attended", "Event Verification Successful")

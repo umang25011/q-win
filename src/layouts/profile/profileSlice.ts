@@ -12,7 +12,9 @@ export interface UserDetails {
     title: string
     date: string
   }[]
-  events_attended: string[]
+  events_attended: {
+    eventID: string
+  }[]
 }
 
 export const initialUserProfile: UserDetails = {
@@ -20,8 +22,8 @@ export const initialUserProfile: UserDetails = {
   email: "",
   userID: "",
   mobileNo: "",
-  program: "",
+  program: "MAC Summer 22",
   studentID: "",
   user_events: [],
-  events_attended:[]
+  events_attended: [],
 }

@@ -288,6 +288,20 @@ code {
   background-color: #01002a;
 }
 
+.create-button {
+  background: linear-gradient(to bottom, #071829, #023d75);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.create-button:hover {
+  background: linear-gradient(to bottom, #1f4161, #0d1a26);
+}
+
 .cancel-button {
   background: linear-gradient(to bottom, #42100d, #8d0b09);
   color: white;
@@ -297,6 +311,11 @@ code {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
+
+.cancel-button:hover {
+  background: linear-gradient(to bottom, #e53935, #f44336);
+}
+
 .event-attended-button {
   background: linear-gradient(to bottom, #0593bb, #0c86b7);
   cursor: not-allowed;

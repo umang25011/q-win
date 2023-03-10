@@ -43,4 +43,4 @@ export function isLoading(loading?: boolean) {
   }
 }
 
-export const LOCAL_STORAGE = { storeUser, getUser }
+export const LOCAL_STORAGE = { storeUser, getUser, isLoading }

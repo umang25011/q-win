@@ -61,23 +61,7 @@ input[type="datetime-local"] {
 }
 
 
-.cancel-button:hover {
-  background: linear-gradient(to bottom, #e53935, #f44336);
-}
 
-.create-button {
-  background: linear-gradient(to bottom, #071829, #023d75);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.create-button:hover {
-  background: linear-gradient(to bottom, #1f4161, #0d1a26);
-}
 
 input[type="submit"],
 input[type="button"],

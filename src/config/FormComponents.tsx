@@ -17,7 +17,7 @@ export function TextInput(props: {
         onChange={(e) => props.setValue(e.target.value)}
         {...(props.extra || {})}
       />
-      <div className="cut"></div>
+      <div className="cut"  style={{ width: "5.5em" }}></div>
       <label className="label-placeholder">{props.label}</label>
     </div>
   )

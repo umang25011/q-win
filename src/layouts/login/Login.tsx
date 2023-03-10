@@ -2,28 +2,32 @@ import React, { useEffect } from "react"
 import { Button, Icon } from "semantic-ui-react"
 import { getAuth, getRedirectResult, OAuthProvider, signInWithRedirect } from "firebase/auth"
 import { microsoftProvider } from "../../config/IntialiseFirebase"
-import { loginWithMicrosoft } from "./loginSlice"
+import { handleLoginFlow, loginWithMicrosoft } from "./loginSlice"
 import { redirect, useNavigate } from "react-router-dom"
 import { url } from "inspector"
-import { useAppDispatch } from "../../store/store"
+import { useAppDispatch, useAppSelector } from "../../store/store"
 import Loading from "../../config/Loding"
+import { isLoading, LOCAL_STORAGE } from "../../config/localStorage"
 
 export default function Login() {
   const auth = getAuth()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const loading = useAppSelector((state) => state.commonData.loading)
 
   const microsoftLogin = () => {
+    // set login true in Local Storage
+    LOCAL_STORAGE.isLoading(true)
     signInWithRedirect(auth, microsoftProvider)
   }
 
   useEffect(() => {
-    dispatch(loginWithMicrosoft())
+    dispatch(handleLoginFlow())
   }, [])
 
   return (
     <div className="home">
-      {/* <Loading /> */}
+      {loading ? <Loading /> : null}
       <div className="logo">
         <img src={require("../../assets/logo.png")} alt="University of Windsor" />
       </div>

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { getAuth, getRedirectResult } from "firebase/auth"
 import firebase from "firebase/compat"
-import { doc } from "firebase/firestore"
+import { doc, getDoc } from "firebase/firestore"
+import { setLoading } from "../../config/commonSlice"
 import { FIREBASE_COLLECTIONS } from "../../config/helper"
 import { firestore, firestoreV9 } from "../../config/IntialiseFirebase"
 import { LOCAL_STORAGE } from "../../config/localStorage"
@@ -10,52 +11,87 @@ import { initialUserProfile, UserDetails } from "../profile/profileSlice"
 
 const initialState: UserDetails = initialUserProfile
 
-const getUserFirestore = (userID: string) => (dispatch: AppDispatch) => {}
+export const getUserFromFirestore = (userID: string) => async (dispatch: AppDispatch) => {
+  try {
+    console.log("Get User Called")
+
+    const userRef = doc(firestoreV9, FIREBASE_COLLECTIONS.users, userID)
+    const userSnap = await getDoc(userRef)
+    console.log("From Firebase User", userSnap.data())
+    const data = userSnap.data()
+    if (data) {
+      const user: UserDetails = {
+        name: data.name,
+        email: data.email,
+        mobileNo: data.mobileNo,
+        studentID: data.studentID,
+        program: data.program,
+        events_attended: data.events_attended,
+        user_events: data.user_events,
+        userID: data.userID,
+      }
+      dispatch(storeUserLocal(user))
+      window.location.href = "/"
+    } else throw Error("User Not Found")
+  } catch (error) {
+    console.log("Error Getting User From Firestore", error)
+    throw error
+  }
+}
+
+export const handleLoginFlow = () => async (dispatch: AppDispatch) => {
+  // check if loading
+  const isLoading = LOCAL_STORAGE.isLoading()
+  if (isLoading) dispatch(setLoading(true))
+
+  // validate user object
+  const auth = getAuth()
+  const redirectResult = await getRedirectResult(auth)
+  if (redirectResult) {
+    const user: UserDetails = { ...initialUserProfile }
+    user.name = redirectResult.user.displayName || ""
+    user.email = redirectResult.user.email || ""
+    user.userID = redirectResult.user.uid
+    try {
+      // User is signed in.
+      // IdP data available in result.additionalUserInfo.profile.
+      // Get the OAuth access token and ID Token
+
+      console.log("Login Flow")
+      if (user.name && user.email && user.userID) {
+        // get the user from firebase, if error, then create new
+        await dispatch(getUserFromFirestore(user.userID))
+        dispatch(setLoading(false))
+      }
+    } catch (error) {
+      console.log("Creating New User")
+
+      firestore
+        .collection("users")
+        .doc(user.userID)
+        .set(
+          {
+            name: user.name,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            email: user.email,
+            userID: user.userID,
+          },
+          { merge: true }
+        )
+        .then((res) => {
+          dispatch(storeUserLocal(user))
+          dispatch(setLoading(false))
+          window.location.href = "/profile"
+        })
+    }
+  }
+}
 
 export const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    loginWithMicrosoft: (state) => {
-      const auth = getAuth()
-
-      getRedirectResult(auth)
-        .then((result) => {
-          // User is signed in.
-          // IdP data available in result.additionalUserInfo.profile.
-          // Get the OAuth access token and ID Token
-          if (result) {
-            const user: UserDetails = { ...initialUserProfile }
-            user.name = result.user.displayName || ""
-            user.email = result.user.email || ""
-            user.userID = result.user.uid
-            // validate user object
-            if (user.name && user.email && user.userID) {
-              firestore
-                .collection("users")
-                .doc(result.user.uid)
-                .set(
-                  {
-                    name: user.name,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    email: user.email,
-                    userID: user.userID,
-                  },
-                  { merge: true }
-                )
-                .then((res) => {
-                  state = user
-                  LOCAL_STORAGE.storeUser(user)
-                  window.location.href = "/profile"
-                })
-            }
-          }
-        })
-        .catch((error: any) => {
-          // Handle error.
-          console.log(error)
-        })
-    },
+    loginWithMicrosoft: (state) => {},
     loginError: (state) => {
       // Login Failed
     },
@@ -88,9 +124,7 @@ export const loginSlice = createSlice({
         return { ...user }
       }
     },
-    getUserFirebase: (state, action: PayloadAction<{ userID: string }>) => {
-      const userRef = doc(firestoreV9, FIREBASE_COLLECTIONS.users, action.payload.userID)
-    },
+    getUserFirebase: (state, action: PayloadAction<{ userID: string }>) => {},
   },
 })
 
