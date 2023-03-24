@@ -8,6 +8,7 @@ import { reducer as toastrReducer } from "react-redux-toastr"
 import eventsListReducer from "../layouts/eventsList/eventsListSlice"
 import verificationReducer from "../layouts/verification/verificationSlice"
 import qrScannerSlice from "../layouts/verification/qrScannerSlice"
+import dashboardSlice from "../layouts/dashboard/dashboardSlice"
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     eventsList: eventsListReducer,
     verification: verificationReducer,
     qrScanner: qrScannerSlice,
+    dashboard: dashboardSlice,
   },
 })
 

@@ -8,7 +8,6 @@ export default function Header() {
   const navigate = useNavigate()
   const [isAdmin, setIsAdmin] = useState(LOCAL_STORAGE.isAdmin())
 
-
   return (
     <nav className="navbar navbar-expand navbar-light bg-light">
       <CheckIfAdmin />
@@ -38,10 +37,18 @@ export default function Header() {
             onClick={() => navigate("/qr-scanner")}
           ></i>
         )}
-        <i
-          className="fa-regular navbar-icon fa-user text-reset fa-2xl me-3 dropdown-toggle hidden-arrow alink"
-          onClick={() => navigate("/profile")}
-        ></i>
+        {isAdmin ? null : (
+          <i
+            className="fa-regular navbar-icon fa-user text-reset fa-2xl me-3 dropdown-toggle hidden-arrow alink"
+            onClick={() => navigate("/profile")}
+          ></i>
+        )}
+        {isAdmin ? (
+          <i
+            onClick={() => navigate("/dashboard")}
+            className="fa-solid navbar-icon fa-table fa-2xl me-3 dropdown-toggle hidden-arrow alink"
+          ></i>
+        ) : null}
       </div>
     </nav>
   )
