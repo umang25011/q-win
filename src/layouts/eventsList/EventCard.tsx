@@ -50,11 +50,9 @@ export default function EventCard({ event }: { event: EventDetails }) {
             onClick={(e) => {
               if (isEventRegistered) {
                 console.log("Calling Unregister")
-
                 dispatch(unregisterEvent(event, user))
               } else {
                 console.log("Calling Register")
-
                 dispatch(registerEvent(event, user))
               }
             }}

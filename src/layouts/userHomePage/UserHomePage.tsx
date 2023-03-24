@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react"
 import CheckIfAdmin from "../../config/CheckIfAdmin"
 import { checkIfAdmin } from "../../config/helper"
+import { useAppSelector } from "../../store/store"
+import EventCard from "../eventsList/EventCard"
 import EventList from "../eventsList/EventsList"
 import Header from "../header/Header"
 import "./userHomePage.css"
+import "../eventsList/eventsList.css"
 
 export default function UserHomePage() {
   const [selectedView, setSeletectedView] = useState<"event" | "myEvent">("event")
+  const user = useAppSelector((state) => state.login)
 
   useEffect(() => {}, [])
   return (
@@ -36,7 +40,19 @@ export default function UserHomePage() {
             <EventList />
           </ul>
         ) : (
-          <ul id="my-events-list"></ul>
+          <div className="event-list">
+            <ul id="my-events-list">
+              {user.user_events ? (
+                user.user_events.map((event) => (
+                  <li key={event.id}>
+                    <EventCard event={event} />
+                  </li>
+                ))
+              ) : (
+                <h1>No Registered Events</h1>
+              )}
+            </ul>
+          </div>
         )}
       </div>
     </div>

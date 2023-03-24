@@ -55,10 +55,10 @@
   }
   
   #event-list-container.active-list #upcoming-events-list {
-    display: block;
+    /* display: block; */
   }
   
   #event-list-container.active-list #my-events-list {
-    display: block;
+    /* display: block; */
   }
   

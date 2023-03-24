@@ -60,9 +60,6 @@ input[type="datetime-local"] {
   justify-content: space-between;
 }
 
-
-
-
 input[type="submit"],
 input[type="button"],
 button[type="submit"],
@@ -94,9 +91,4 @@ input[type="button"],
 button[type="submit"],
 button[type="button"] {
   cursor: pointer;
-}
-
-.cancel-button,
-.create-button {
-  width: 45%;
 }
