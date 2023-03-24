@@ -6,7 +6,7 @@
   width: 100%;
   /* margin: auto; */
   overflow: hidden;
-  transition: ease-in-out 10s;
+  transition: ease-in-out 1s;
   max-height: 20em; /* Set a max height for the element */
 }
 
