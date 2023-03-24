@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Button, Icon } from "semantic-ui-react"
-import { getAuth, getRedirectResult, OAuthProvider, signInWithRedirect } from "firebase/auth"
+import { getAuth, getRedirectResult, OAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth"
 import { microsoftProvider } from "../../config/IntialiseFirebase"
 import { handleLoginFlow, loginWithMicrosoft } from "./loginSlice"
 import { redirect, useNavigate } from "react-router-dom"
@@ -18,12 +18,10 @@ export default function Login() {
   const microsoftLogin = () => {
     // set login true in Local Storage
     LOCAL_STORAGE.isLoading(true)
-    signInWithRedirect(auth, microsoftProvider)
+    dispatch(handleLoginFlow())
   }
 
-  useEffect(() => {
-    dispatch(handleLoginFlow())
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <div className="home">

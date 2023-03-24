@@ -1,12 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import CheckIfAdmin from "../../config/CheckIfAdmin"
+import { LOCAL_STORAGE } from "../../config/localStorage"
 import "./header.css"
 
 export default function Header() {
   const navigate = useNavigate()
+  const [isAdmin, setIsAdmin] = useState(LOCAL_STORAGE.isAdmin())
+
 
   return (
     <nav className="navbar navbar-expand navbar-light bg-light">
+      <CheckIfAdmin />
       <div className="navbar-collapse" id="navbarSupportedContent">
         {/* <a className="navbar-brand" href="/">
           <img src={require("../../assets/qwin-logo.jpg")} height="auto" width={"40"} alt="Qwin Logo" />
@@ -24,11 +29,15 @@ export default function Header() {
       </div>
 
       <div className="d-flex align-items-center">
-        <i className="fa-solid fa-plus fa-2xl me-5 alink" onClick={() => navigate("/create-event")}></i>
-        <i
-          className="fa-solid navbar-icon fa-qrcode fa-2xl text-reset me-5  dropdown-toggle hidden-arrow alink"
-          onClick={() => navigate("/qr-scanner")}
-        ></i>
+        {isAdmin ? (
+          <i className="fa-solid fa-plus fa-2xl me-5 alink" onClick={() => navigate("/create-event")}></i>
+        ) : null}
+        {isAdmin ? null : (
+          <i
+            className="fa-solid navbar-icon fa-qrcode fa-2xl text-reset me-5  dropdown-toggle hidden-arrow alink"
+            onClick={() => navigate("/qr-scanner")}
+          ></i>
+        )}
         <i
           className="fa-regular navbar-icon fa-user text-reset fa-2xl me-3 dropdown-toggle hidden-arrow alink"
           onClick={() => navigate("/profile")}

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { getAuth, getRedirectResult } from "firebase/auth"
+import { getAuth, getRedirectResult, signInWithPopup } from "firebase/auth"
 import firebase from "firebase/compat"
 import { doc, getDoc } from "firebase/firestore"
 import { setLoading } from "../../config/commonSlice"
 import { FIREBASE_COLLECTIONS } from "../../config/helper"
-import { firestore, firestoreV9 } from "../../config/IntialiseFirebase"
+import { firestore, firestoreV9, microsoftProvider } from "../../config/IntialiseFirebase"
 import { LOCAL_STORAGE } from "../../config/localStorage"
 import { AppDispatch } from "../../store/store"
 import { initialUserProfile, UserDetails } from "../profile/profileSlice"
@@ -46,7 +46,7 @@ export const handleLoginFlow = () => async (dispatch: AppDispatch) => {
 
   // validate user object
   const auth = getAuth()
-  const redirectResult = await getRedirectResult(auth)
+  const redirectResult = await signInWithPopup(auth, microsoftProvider)
   if (redirectResult) {
     const user: UserDetails = { ...initialUserProfile }
     user.name = redirectResult.user.displayName || ""

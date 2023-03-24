@@ -1,11 +1,14 @@
-import React from "react"
+import React, { useEffect } from "react"
+import CheckIfAdmin from "../../config/CheckIfAdmin"
+import { checkIfAdmin } from "../../config/helper"
 import Header from "../header/Header"
 import "./userHomePage.css"
 
 export default function UserHomePage() {
+  useEffect(() => {}, [])
   return (
     <div>
-        <Header />
+      <Header />
       <div className="button-container">
         <button id="upcoming-events-btn">Events</button>
         <div className="separator"></div>

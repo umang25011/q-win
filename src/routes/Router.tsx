@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { BrowserRouter, Navigate, redirect, Route, Routes, useNavigate } from "react-router-dom"
+import { BrowserRouter, Navigate, redirect, Route, Routes, useNavigate, useSearchParams } from "react-router-dom"
 import { LOCAL_STORAGE } from "../config/localStorage"
 import PrivateRoute from "../config/PrivateRoute"
 import EventsList from "../layouts/eventsList/EventsList"
@@ -24,7 +24,8 @@ import UserHomePage from "../layouts/userHomePage/UserHomePage"
 
 const Router = () => {
   const dispatch = useAppDispatch()
-  getUserLocal
+
+
   useEffect(() => {
     const user = LOCAL_STORAGE.getUser()
     dispatch(getUserLocal())
@@ -40,7 +41,7 @@ const Router = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/events" element={<EventsList />} />
-        <Route path="/" element={<EventsList />} />
+        <Route path="/" element={<UserHomePage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-event" element={<ManageEvents />} />
         <Route path="/events/:id?" element={<ManageEvents />} />

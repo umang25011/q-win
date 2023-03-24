@@ -3,6 +3,7 @@ import { UserDetails } from "../layouts/profile/profileSlice"
 export const LOCAL_STORAGE_KEYS = {
   user: "user",
   loading: "UserLoading",
+  admin: "isAdmin",
 }
 
 export function storeUser(user: UserDetails) {
@@ -43,4 +44,20 @@ export function isLoading(loading?: boolean) {
   }
 }
 
-export const LOCAL_STORAGE = { storeUser, getUser, isLoading }
+export function isAdmin(admin?: boolean) {
+  if (admin !== undefined) {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.admin, JSON.stringify({ [LOCAL_STORAGE_KEYS.admin]: admin }))
+    return admin
+  } else {
+    const temp = localStorage.getItem(LOCAL_STORAGE_KEYS.admin)
+    try {
+      const loadingState = JSON.parse(temp || "{}")
+      if (loadingState[LOCAL_STORAGE_KEYS.admin]) return true
+      else return false
+    } catch (e) {
+      return false
+    }
+  }
+}
+
+export const LOCAL_STORAGE = { storeUser, getUser, isLoading, isAdmin }
