@@ -49,7 +49,7 @@ export default function QrScan() {
         if (scannerRef.current) scannerRef.current.stop()
 
         // check if event is already scanned, or not registred
-        const isEventRegistered = user.user_events.map((item) => item.eventID).includes(parsedData.eventID)
+        const isEventRegistered = user.user_events.map((item) => item.id).includes(parsedData.eventID)
         const isEventAttended = user.events_attended.map((item) => item.eventID).includes(parsedData.eventID)
 
         if (isEventAttended) {

@@ -26,7 +26,6 @@ export const startVerificationHashStrings = (
   intervalHandle: React.MutableRefObject<NodeJS.Timer | undefined>
 ) => async (dispatch: AppDispatch) => {
   // TODO : store initial time on firebase, so we can verify later from this time onwards
-  console.log("Function Called")
 
   const start = async () => {
     const hash = await getVerificationString(state.event.id, state.randomString)

@@ -1,6 +1,7 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { DATE_FORMAT_OPTION } from "../../config/helper"
+import { isAdmin } from "../../config/localStorage"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { EventDetails } from "../manageEvent/manageEventSlice"
 import "./eventCard.css"
@@ -11,7 +12,7 @@ export default function EventCard({ event }: { event: EventDetails }) {
   const navigate = useNavigate()
 
   const user = useAppSelector((state) => state.login)
-  const isEventRegistered = user.user_events ? user.user_events.map((item) => item.eventID).includes(event.id) : false
+  const isEventRegistered = user.user_events ? user.user_events.map((item) => item.id).includes(event.id) : false
   const isEventAttended = user.events_attended
     ? user.events_attended.map((item) => item.eventID).includes(event.id)
     : false
@@ -30,35 +31,37 @@ export default function EventCard({ event }: { event: EventDetails }) {
         >
           Details
         </button>
-        <button
-          className="details-button"
-          onClick={(e) => {
-            navigate("/start-verification", { state: event })
-          }}
-        >
-          Start Verification
-        </button>
+        {isAdmin() ? (
+          <button
+            className="details-button"
 
-        <button
-          className={`${isEventAttended ? "event-attended-button" : ""} ${
-            isEventRegistered ? "cancel-button" : "register-button"
-          }`}
-          style={{ width: "auto" }}
-          disabled={isEventAttended}
-          onClick={(e) => {
-            if (isEventRegistered) {
-              console.log("Calling Unregister")
+            onClick={(e) => {
+              navigate("/start-verification", { state: event })
+            }}
+          >
+            Start Verification
+          </button>
+        ) : (
+          <button
+            className={`${isEventAttended ? "event-attended-button" : ""} ${
+              isEventRegistered ? "cancel-button" : "register-button"
+            }`}
+            disabled={isEventAttended}
+            onClick={(e) => {
+              if (isEventRegistered) {
+                console.log("Calling Unregister")
 
-              dispatch(unregisterEvent(event, user))
-            } else {
-              console.log("Calling Register")
+                dispatch(unregisterEvent(event, user))
+              } else {
+                console.log("Calling Register")
 
-              dispatch(registerEvent(event, user))
-            }
-          }}
-        >
-          {isEventAttended ? "Attended" : isEventRegistered ? "Cancel" : "Register"}
-        </button>
+                dispatch(registerEvent(event, user))
+              }
+            }}
+          >
+            {isEventAttended ? "Attended" : isEventRegistered ? "Cancel" : "Register"}
+          </button>
+        )}
       </div>
     </div>
   )

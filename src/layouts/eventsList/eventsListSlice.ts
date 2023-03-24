@@ -55,11 +55,11 @@ export const registerEvent = (event: EventDetails, user: UserDetails) => async (
     const userRef = doc(firestoreV9, FIREBASE_COLLECTIONS.users, user.userID)
     const user_event = { eventID: event.id, title: event.title, date: event.date }
     await updateDoc(userRef, {
-      [FIREBASE_COLLECTIONS.usersSubEvent]: arrayUnion(user_event),
+      [FIREBASE_COLLECTIONS.usersSubEvent]: arrayUnion(event),
     })
     const updatedUser = { ...user }
     if (!updatedUser.user_events) updatedUser.user_events = []
-    updatedUser.user_events = user.user_events ? [...user.user_events, user_event] : [user_event]
+    updatedUser.user_events = user.user_events ? [...user.user_events, event] : [event]
     // store event in Local Storage
     dispatch(storeUserLocal(updatedUser))
     toastr.success(`${event.title}`, "Event Registration Successful")
@@ -77,10 +77,10 @@ export const unregisterEvent = (event: EventDetails, user: UserDetails) => async
     await deleteDoc(attendeesRef)
     const userRef = doc(firestoreV9, FIREBASE_COLLECTIONS.users, user.userID)
     await updateDoc(userRef, {
-      [FIREBASE_COLLECTIONS.usersSubEvent]: arrayRemove({ eventID: event.id, title: event.title, date: event.date }),
+      [FIREBASE_COLLECTIONS.usersSubEvent]: arrayRemove(event),
     })
     const updatedUser = { ...user }
-    updatedUser.user_events = user.user_events.filter((item) => item.eventID !== event.id)
+    updatedUser.user_events = user.user_events.filter((item) => item.id !== event.id)
     // store event in Local Storage
     dispatch(storeUserLocal(updatedUser))
     toastr.success(`${event.title}`, "Event Registration Cancelled")

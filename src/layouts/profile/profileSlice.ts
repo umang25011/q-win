@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { EventDetails } from "../manageEvent/manageEventSlice"
 
 export interface UserDetails {
   name: string
@@ -7,11 +8,7 @@ export interface UserDetails {
   mobileNo: string
   userID: string
   studentID: string
-  user_events: {
-    eventID: string
-    title: string
-    date: string
-  }[]
+  user_events: EventDetails[]
   events_attended: {
     eventID: string
   }[]

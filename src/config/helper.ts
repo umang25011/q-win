@@ -3,10 +3,7 @@ import { useSearchParams } from "react-router-dom"
 export const TIME_QR_CODE_REFRESHES = 5000
 
 // TODO : store entire state in LocalStorage
-// TODO : Only show forms for the first time only
 
-// TODO : Fix private route
-// TODO : Fix Authorization
 
 export const FIREBASE_COLLECTIONS = {
   users: "users",
@@ -46,7 +43,9 @@ export async function getVerificationString(s1: string, s2: string): Promise<str
   const timestamp = Date.now()
   const interval = Math.floor(timestamp / TIME_QR_CODE_REFRESHES)
   const concatenated = s1 + s2 + interval.toString()
-  return hashString(concatenated)
+  // return hashString(concatenated)
+  // TODO: return date string directly, so we can verify time in users
+  return interval.toString()
 }
 
 export async function encryptJson(jsonObj: object, key: CryptoKey): Promise<string> {
