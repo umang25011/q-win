@@ -7,6 +7,7 @@ import EventList from "../eventsList/EventsList"
 import Header from "../header/Header"
 import "./userHomePage.css"
 import "../eventsList/eventsList.css"
+import { isAdmin } from "../../config/localStorage"
 
 export default function UserHomePage() {
   const [selectedView, setSeletectedView] = useState<"event" | "myEvent">("event")
@@ -16,23 +17,25 @@ export default function UserHomePage() {
   return (
     <div>
       <Header />
-      <div className="button-container">
-        <button
-          id={`upcoming-events-btn`}
-          className={`${selectedView === "event" ? "button-active" : ""}`}
-          onClick={(e) => setSeletectedView("event")}
-        >
-          Events
-        </button>
-        <div className="separator"></div>
-        <button
-          id={`my-events-btn`}
-          className={`${selectedView === "myEvent" ? "button-active" : ""}`}
-          onClick={(e) => setSeletectedView("myEvent")}
-        >
-          My Bookings
-        </button>
-      </div>
+      {isAdmin() ? null : (
+        <div className="button-container">
+          <button
+            id={`upcoming-events-btn`}
+            className={`${selectedView === "event" ? "button-active" : ""}`}
+            onClick={(e) => setSeletectedView("event")}
+          >
+            Events
+          </button>
+          <div className="separator"></div>
+          <button
+            id={`my-events-btn`}
+            className={`${selectedView === "myEvent" ? "button-active" : ""}`}
+            onClick={(e) => setSeletectedView("myEvent")}
+          >
+            My Bookings
+          </button>
+        </div>
+      )}
 
       <div id="event-list-container">
         {selectedView === "event" ? (

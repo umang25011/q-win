@@ -12,6 +12,7 @@ import Verification from "../layouts/verification/Verification"
 import QrScan from "../layouts/verification/QRScanner"
 import Header from "../layouts/header/Header"
 import UserHomePage from "../layouts/userHomePage/UserHomePage"
+import Dashboard from "../layouts/dashboard/Dashboard"
 // import Dashboard from "../components/dashboard/Dashboard";
 // import NotProtectedRoute from "./NotProtectedRoute";
 // import EventDetail from "../components/event/EventDetail";
@@ -47,6 +48,7 @@ const Router = () => {
         <Route path="/events/:id?" element={<ManageEvents />} />
         <Route path="/start-verification" element={<Verification />} />
         <Route path="/qr-scanner" element={<QrScan />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   )

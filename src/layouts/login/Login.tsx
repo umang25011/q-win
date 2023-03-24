@@ -35,7 +35,10 @@ export default function Login() {
       <div className="home-intro">
         {/* Note <br /> Use Your University Microsoft Account To Login <br /> Please Allow Location Permission */}
       </div>
-      <Button inverted size="large" onClick={microsoftLogin}>
+      {/* <button onClick={microsoftLogin} type="button">
+        Login
+      </button> */}
+      <Button className="all-css-unset-login-button" onClick={microsoftLogin} inverted size="large">
         Login <Icon name="arrow right" />
       </Button>
     </div>

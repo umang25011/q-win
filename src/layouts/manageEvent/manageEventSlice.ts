@@ -136,7 +136,6 @@ export const manageEventSlice = createSlice({
       if (action.payload) {
         state.attendees = action.payload
 
-        console.log("INside Reducer", JSON.parse(JSON.stringify(action.payload)))
       }
 
       return state
